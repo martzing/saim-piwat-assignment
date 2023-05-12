@@ -21,7 +21,7 @@ export class AuthService {
       canInit: true,
     },
     {
-      id: 2,
+      id: 3,
       username: 'admin3',
       password: '$2a$08$vN4HjLkngovPHbmMIVdE0uoqbufJQoloO8RTpCM/2of0A7vhdmBSi', // => 1234567890
       canInit: false,

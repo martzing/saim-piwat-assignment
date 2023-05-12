@@ -3,6 +3,8 @@ import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import { BookingController } from './booking/booking.controller';
+import { BookingService } from './booking/booking.service';
 
 @Module({
   imports: [
@@ -16,8 +18,8 @@ import { JwtModule } from '@nestjs/jwt';
       global: true,
     }),
   ],
-  controllers: [AuthController],
-  providers: [AuthService],
+  controllers: [AuthController, BookingController],
+  providers: [AuthService, BookingService],
   exports: [AuthService],
 })
 export class RestaurantModule {}

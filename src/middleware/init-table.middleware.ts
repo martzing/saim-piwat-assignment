@@ -69,14 +69,7 @@ export class InitTableMiddleware implements NestMiddleware {
       }
       req['admin'] = admin;
     } catch (err) {
-      throw new HttpException(
-        {
-          statusCode: HttpStatus.FORBIDDEN,
-          message: [err.message],
-          error: 'Forbidden',
-        },
-        HttpStatus.FORBIDDEN,
-      );
+      throw err;
     }
     next();
   }
