@@ -30,7 +30,7 @@ export class AuthService {
 
   async login({ username, password }: LoginData): Promise<LoginResponse> {
     const admin = this.adminList.find((a) => a.username === username);
-    if (!admin)
+    if (!admin) {
       throw new HttpException(
         {
           statusCode: HttpStatus.NOT_FOUND,
@@ -39,8 +39,9 @@ export class AuthService {
         },
         HttpStatus.NOT_FOUND,
       );
+    }
     const isMatch = await compare(password, admin.password);
-    if (!isMatch)
+    if (!isMatch) {
       throw new HttpException(
         {
           statusCode: HttpStatus.UNAUTHORIZED,
@@ -49,6 +50,7 @@ export class AuthService {
         },
         HttpStatus.UNAUTHORIZED,
       );
+    }
     const payload = { id: admin.id };
     return {
       token: await this.jwtService.signAsync(payload),
