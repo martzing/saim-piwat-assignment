@@ -12,11 +12,19 @@ export class AuthService {
       id: 1,
       username: 'admin1',
       password: '$2b$10$EE08QSCiXpkR3Vukoj6gW.zesjXWHiILWlVca1t7LO/ckRjcIBqIS', // => 1234567890
+      canInit: true,
     },
     {
       id: 2,
       username: 'admin2',
       password: '$2a$08$vN4HjLkngovPHbmMIVdE0uoqbufJQoloO8RTpCM/2of0A7vhdmBSi', // => 1234567890
+      canInit: true,
+    },
+    {
+      id: 2,
+      username: 'admin3',
+      password: '$2a$08$vN4HjLkngovPHbmMIVdE0uoqbufJQoloO8RTpCM/2of0A7vhdmBSi', // => 1234567890
+      canInit: false,
     },
   ];
 
@@ -45,5 +53,11 @@ export class AuthService {
     return {
       token: await this.jwtService.signAsync(payload),
     };
+  }
+
+  getAdminById(id: number): Admin | null {
+    const admin = this.adminList.find((a) => a.id === id);
+    if (!admin) return null;
+    return admin;
   }
 }
