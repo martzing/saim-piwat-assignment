@@ -8,7 +8,7 @@ import { MorganMiddleware } from '@nest-middlewares/morgan';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RestaurantModule } from './restaurant/restaurant.module';
-import configs from 'src/configs';
+import configs from './configs';
 import { ConfigModule } from '@nestjs/config';
 import { InitTableMiddleware } from './middleware/init-table.middleware';
 import { StaffMiddleware } from './middleware/staff.middleware';

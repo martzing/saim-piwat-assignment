@@ -10,7 +10,7 @@ import {
   Table,
   UseReserveTableResponse,
 } from './type';
-import dayjs from 'dayjs';
+import dayjs from './../../utils/dayjs';
 
 @Injectable()
 export class BookingService {
@@ -256,8 +256,7 @@ export class BookingService {
     const availableTable = this.tableList.filter(
       (t) => t.status === 'available',
     );
-    console.log(tables);
-    console.log(availableTable);
+
     return {
       freed_table_amount: freedAmount,
       table_remaining_amount: availableTable.length,

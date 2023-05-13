@@ -7,7 +7,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response, NextFunction } from 'express';
-import { AuthService } from 'src/restaurant/auth/auth.service';
+import { AuthService } from './../restaurant/auth/auth.service';
 
 @Injectable()
 export class StaffMiddleware implements NestMiddleware {
