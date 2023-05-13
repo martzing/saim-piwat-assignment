@@ -4,6 +4,7 @@ import {
   NestModule,
   RequestMethod,
 } from '@nestjs/common';
+import { MorganMiddleware } from '@nest-middlewares/morgan';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RestaurantModule } from './restaurant/restaurant.module';
@@ -24,7 +25,12 @@ import { InitTableMiddleware } from './middleware/init-table.middleware';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
+    MorganMiddleware.configure(
+      ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :response-time ms :res[content-length] ":referrer" ":user-agent"',
+    );
     consumer
+      .apply(MorganMiddleware)
+      .forRoutes('*')
       .apply(InitTableMiddleware)
       .forRoutes({ path: 'booking/table/init', method: RequestMethod.POST });
   }

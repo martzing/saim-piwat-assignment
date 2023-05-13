@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import {
   BookingTransaction,
+  CancelReserveTableResponse,
   InitTableResponse,
   ReserveTableData,
   ReserveTableResponse,
@@ -51,7 +52,8 @@ export class BookingService {
     }
 
     const now = dayjs();
-    if (dayjs(bookingTime).diff(now, 'minute') < 30) {
+    const bookingTimeObj = dayjs(bookingTime);
+    if (bookingTimeObj.diff(now, 'minute') < 30) {
       throw new HttpException(
         {
           statusCode: HttpStatus.BAD_REQUEST,
@@ -87,13 +89,68 @@ export class BookingService {
       custumerAmount,
       bookingTime,
       tables: reserveTable,
+      status: 'waiting',
       trasactionTime: now.toDate(),
     });
+
+    // auto cancel booking if customer late 30 minute
+    setTimeout(
+      () => this.cancelReserveTable(transactionId),
+      bookingTimeObj.add(30, 'minute').diff(now, 'millisecond'),
+    );
 
     return {
       booking_id: transactionId,
       booking_table_amount: bookingTableAmount,
       table_remaining_amount: tables.length - bookingTableAmount,
+    };
+  }
+
+  cancelReserveTable(bookingId: string): CancelReserveTableResponse {
+    if (this.tableList.length <= 0) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.BAD_REQUEST,
+          message: ['Cannot cancel booking because the restaurant is closed'],
+          error: 'Bad Request',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const bookingTxn = this.bookingTransactionList.find(
+      (txn) => txn.id === bookingId,
+    );
+    if (!bookingTxn) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.NOT_FOUND,
+          message: ['Booking id not found'],
+          error: 'Not Found',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    if (bookingTxn.status !== 'waiting') {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.BAD_REQUEST,
+          message: ['Booking status cannot cancel'],
+          error: 'Bad Request',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const { tables } = bookingTxn;
+    tables.forEach((t) => {
+      t.status = 'available';
+    });
+    bookingTxn.status = 'cancel';
+    const availableTables = this.tableList.filter(
+      (t) => t.status === 'available',
+    );
+    return {
+      freed_table_amount: tables.length,
+      table_remaining_amount: availableTables.length,
     };
   }
 }

@@ -9,6 +9,7 @@ export type BookingTransaction = {
   custumerAmount: number;
   bookingTime: Date;
   tables: Table[];
+  status: 'waiting' | 'cancel' | 'complete';
   trasactionTime: Date;
 };
 
@@ -24,5 +25,10 @@ export type ReserveTableData = {
 export type ReserveTableResponse = {
   booking_id: string;
   booking_table_amount: number;
+  table_remaining_amount: number;
+};
+
+export type CancelReserveTableResponse = {
+  freed_table_amount: number;
   table_remaining_amount: number;
 };

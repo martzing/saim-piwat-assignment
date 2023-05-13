@@ -1,8 +1,13 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { InitTableDto } from './dto/init-table.dto';
-import { InitTableResponse, ReserveTableResponse } from './type';
+import {
+  CancelReserveTableResponse,
+  InitTableResponse,
+  ReserveTableResponse,
+} from './type';
 import { BookingService } from './booking.service';
 import { ReserveTableDto } from './dto/reserve-table.dto';
+import { CancelReserveTableDto } from './dto/cancel-reserve-table.dto';
 
 @Controller('booking')
 export class BookingController {
@@ -19,5 +24,12 @@ export class BookingController {
       custumerAmount: body.customer_amount,
       bookingTime: body.booking_time,
     });
+  }
+
+  @Post('/table/cancel')
+  cancelReserveTable(
+    @Body() body: CancelReserveTableDto,
+  ): CancelReserveTableResponse {
+    return this.bookingService.cancelReserveTable(body.booking_id);
   }
 }
