@@ -11,6 +11,7 @@ import { RestaurantModule } from './restaurant/restaurant.module';
 import configs from 'src/configs';
 import { ConfigModule } from '@nestjs/config';
 import { InitTableMiddleware } from './middleware/init-table.middleware';
+import { StaffMiddleware } from './middleware/staff.middleware';
 
 @Module({
   imports: [
@@ -32,6 +33,8 @@ export class AppModule implements NestModule {
       .apply(MorganMiddleware)
       .forRoutes('*')
       .apply(InitTableMiddleware)
-      .forRoutes({ path: 'booking/table/init', method: RequestMethod.POST });
+      .forRoutes({ path: 'booking/table/init', method: RequestMethod.POST })
+      .apply(StaffMiddleware)
+      .forRoutes({ path: 'booking/table/clear', method: RequestMethod.PATCH });
   }
 }

@@ -39,3 +39,8 @@ export type UseReserveTableResponse = {
   table_id: number;
   table_name: string;
 }[];
+
+export type ClearTableResponse = {
+  freed_table_amount: number;
+  table_remaining_amount: number;
+};

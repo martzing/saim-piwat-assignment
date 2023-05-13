@@ -1,4 +1,4 @@
-export type Admin = {
+export type Staff = {
   id: number;
   username: string;
   password: string;

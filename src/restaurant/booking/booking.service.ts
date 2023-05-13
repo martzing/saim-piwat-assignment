@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   BookingTransaction,
   CancelReserveTableResponse,
+  ClearTableResponse,
   InitTableResponse,
   ReserveTableData,
   ReserveTableResponse,
@@ -230,5 +231,36 @@ export class BookingService {
       table_id: t.id,
       table_name: t.name,
     }));
+  }
+
+  clearTable(tableIds: number[]): ClearTableResponse {
+    if (this.tableList.length <= 0) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.BAD_REQUEST,
+          message: ['The restaurant is closed'],
+          error: 'Bad Request',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const tables = this.tableList.filter((t) => tableIds.includes(t.id));
+    let freedAmount = 0;
+    tables.forEach((t) => {
+      if (t.status === 'unavailable') {
+        freedAmount++;
+        t.status = 'available';
+      }
+    });
+    const availableTable = this.tableList.filter(
+      (t) => t.status === 'available',
+    );
+    console.log(tables);
+    console.log(availableTable);
+    return {
+      freed_table_amount: freedAmount,
+      table_remaining_amount: availableTable.length,
+    };
   }
 }

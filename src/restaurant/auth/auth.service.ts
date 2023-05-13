@@ -1,13 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { Admin, LoginData, LoginResponse } from './type';
+import { Staff, LoginData, LoginResponse } from './type';
 
 @Injectable()
 export class AuthService {
   constructor(private jwtService: JwtService) {}
 
-  private readonly adminList: Admin[] = [
+  private readonly adminList: Staff[] = [
     {
       id: 1,
       username: 'admin1',
@@ -57,7 +57,7 @@ export class AuthService {
     };
   }
 
-  getAdminById(id: number): Admin | null {
+  getStaffById(id: number): Staff | null {
     const admin = this.adminList.find((a) => a.id === id);
     if (!admin) return null;
     return admin;

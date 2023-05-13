@@ -10,7 +10,7 @@ import { Request, Response, NextFunction } from 'express';
 import { AuthService } from 'src/restaurant/auth/auth.service';
 
 @Injectable()
-export class InitTableMiddleware implements NestMiddleware {
+export class StaffMiddleware implements NestMiddleware {
   constructor(
     private jwtService: JwtService,
     private configService: ConfigService,
@@ -48,16 +48,6 @@ export class InitTableMiddleware implements NestMiddleware {
     try {
       const staff = this.authService.getStaffById(id);
       if (!staff) {
-        throw new HttpException(
-          {
-            statusCode: HttpStatus.NOT_FOUND,
-            message: ['User not found'],
-            error: 'Not Found',
-          },
-          HttpStatus.NOT_FOUND,
-        );
-      }
-      if (!staff.canInit) {
         throw new HttpException(
           {
             statusCode: HttpStatus.FORBIDDEN,
