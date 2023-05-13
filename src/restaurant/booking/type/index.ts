@@ -6,6 +6,7 @@ export type Table = {
 
 export type BookingTransaction = {
   id: string;
+  customerName: string;
   custumerAmount: number;
   bookingTime: Date;
   tables: Table[];
@@ -18,6 +19,7 @@ export type InitTableResponse = {
 };
 
 export type ReserveTableData = {
+  customerName: string;
   custumerAmount: number;
   bookingTime: Date;
 };
@@ -32,3 +34,8 @@ export type CancelReserveTableResponse = {
   freed_table_amount: number;
   table_remaining_amount: number;
 };
+
+export type UseReserveTableResponse = {
+  table_id: number;
+  table_name: string;
+}[];

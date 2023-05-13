@@ -7,6 +7,7 @@ import {
   ReserveTableData,
   ReserveTableResponse,
   Table,
+  UseReserveTableResponse,
 } from './type';
 import dayjs from 'dayjs';
 
@@ -37,6 +38,7 @@ export class BookingService {
   }
 
   reserveTable({
+    customerName,
     custumerAmount,
     bookingTime,
   }: ReserveTableData): ReserveTableResponse {
@@ -86,6 +88,7 @@ export class BookingService {
 
     this.bookingTransactionList.push({
       id: transactionId,
+      customerName,
       custumerAmount,
       bookingTime,
       tables: reserveTable,
@@ -117,9 +120,11 @@ export class BookingService {
         HttpStatus.BAD_REQUEST,
       );
     }
+
     const bookingTxn = this.bookingTransactionList.find(
       (txn) => txn.id === bookingId,
     );
+
     if (!bookingTxn) {
       throw new HttpException(
         {
@@ -130,6 +135,7 @@ export class BookingService {
         HttpStatus.NOT_FOUND,
       );
     }
+
     if (bookingTxn.status !== 'waiting') {
       throw new HttpException(
         {
@@ -140,6 +146,7 @@ export class BookingService {
         HttpStatus.BAD_REQUEST,
       );
     }
+
     const { tables } = bookingTxn;
     tables.forEach((t) => {
       t.status = 'available';
@@ -148,9 +155,80 @@ export class BookingService {
     const availableTables = this.tableList.filter(
       (t) => t.status === 'available',
     );
+
     return {
       freed_table_amount: tables.length,
       table_remaining_amount: availableTables.length,
     };
+  }
+
+  useReserveTable(bookingId: string): UseReserveTableResponse {
+    if (this.tableList.length <= 0) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.BAD_REQUEST,
+          message: ['The restaurant is closed, please come back again'],
+          error: 'Bad Request',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const bookingTxn = this.bookingTransactionList.find(
+      (txn) => txn.id === bookingId,
+    );
+
+    if (!bookingTxn) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.NOT_FOUND,
+          message: ['Booking id not found'],
+          error: 'Not Found',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    if (bookingTxn.status !== 'waiting') {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.BAD_REQUEST,
+          message: ['Booking status cannot set to complete'],
+          error: 'Bad Request',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const now = dayjs();
+    const bookingTime = dayjs(bookingTxn.bookingTime);
+
+    if (now.isBefore(bookingTime)) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.BAD_REQUEST,
+          message: ['Sorry, You came too early'],
+          error: 'Bad Request',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (now.diff(bookingTime, 'minute') > 30) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.BAD_REQUEST,
+          message: ['Sorry, You came too late'],
+          error: 'Bad Request',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    bookingTxn.status = 'complete';
+
+    return bookingTxn.tables.map((t) => ({
+      table_id: t.id,
+      table_name: t.name,
+    }));
   }
 }

@@ -1,5 +1,6 @@
 import { Type } from 'class-transformer';
 import {
+  IsAlpha,
   IsDateString,
   IsInt,
   IsNotEmpty,
@@ -8,6 +9,10 @@ import {
 } from 'class-validator';
 
 export class ReserveTableDto {
+  @IsNotEmpty()
+  @IsAlpha()
+  customer_name: string;
+
   @IsNotEmpty()
   @Type(() => Number)
   @IsInt()

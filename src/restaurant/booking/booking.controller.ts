@@ -1,13 +1,15 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Patch, Post } from '@nestjs/common';
 import { InitTableDto } from './dto/init-table.dto';
 import {
   CancelReserveTableResponse,
   InitTableResponse,
   ReserveTableResponse,
+  UseReserveTableResponse,
 } from './type';
 import { BookingService } from './booking.service';
 import { ReserveTableDto } from './dto/reserve-table.dto';
 import { CancelReserveTableDto } from './dto/cancel-reserve-table.dto';
+import { UseReserveTableDto } from './dto/use-reserve-table';
 
 @Controller('booking')
 export class BookingController {
@@ -21,15 +23,21 @@ export class BookingController {
   @Post('/table/reserve')
   reserveTable(@Body() body: ReserveTableDto): ReserveTableResponse {
     return this.bookingService.reserveTable({
+      customerName: body.customer_name,
       custumerAmount: body.customer_amount,
       bookingTime: body.booking_time,
     });
   }
 
-  @Post('/table/cancel')
+  @Patch('/table/cancel')
   cancelReserveTable(
     @Body() body: CancelReserveTableDto,
   ): CancelReserveTableResponse {
     return this.bookingService.cancelReserveTable(body.booking_id);
+  }
+
+  @Patch('/table/use')
+  useReserveTable(@Body() body: UseReserveTableDto): UseReserveTableResponse {
+    return this.bookingService.useReserveTable(body.booking_id);
   }
 }
