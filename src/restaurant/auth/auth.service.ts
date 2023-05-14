@@ -7,7 +7,7 @@ import { Staff, LoginData, LoginResponse } from './type';
 export class AuthService {
   constructor(private jwtService: JwtService) {}
 
-  private readonly adminList: Staff[] = [
+  public adminList: Staff[] = [
     {
       id: 1,
       username: 'admin1',
@@ -23,6 +23,12 @@ export class AuthService {
     {
       id: 3,
       username: 'admin3',
+      password: '$2a$08$vN4HjLkngovPHbmMIVdE0uoqbufJQoloO8RTpCM/2of0A7vhdmBSi', // => 1234567890
+      canInit: false,
+    },
+    {
+      id: 4,
+      username: 'admin4',
       password: '$2a$08$vN4HjLkngovPHbmMIVdE0uoqbufJQoloO8RTpCM/2of0A7vhdmBSi', // => 1234567890
       canInit: false,
     },

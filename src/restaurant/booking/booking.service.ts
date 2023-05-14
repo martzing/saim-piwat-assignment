@@ -14,8 +14,8 @@ import dayjs from './../../utils/dayjs';
 
 @Injectable()
 export class BookingService {
-  private tableList: Table[] = [];
-  private bookingTransactionList: BookingTransaction[] = [];
+  public tableList: Table[] = [];
+  public bookingTransactionList: BookingTransaction[] = [];
 
   initTable(amount: number): InitTableResponse {
     if (this.tableList.length > 0) {
@@ -35,7 +35,7 @@ export class BookingService {
         status: 'available',
       });
     }
-    return { message: 'Initialize table success.' };
+    return { message: 'Initialize table success' };
   }
 
   reserveTable({

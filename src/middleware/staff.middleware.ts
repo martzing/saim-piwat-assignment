@@ -18,7 +18,7 @@ export class StaffMiddleware implements NestMiddleware {
   ) {}
 
   async use(req: Request, res: Response, next: NextFunction) {
-    const authorization = req.get('authorization') || req.get('Authorization');
+    const authorization = req.headers['authorization'];
     if (!authorization) {
       throw new HttpException(
         {
@@ -45,22 +45,20 @@ export class StaffMiddleware implements NestMiddleware {
         HttpStatus.UNAUTHORIZED,
       );
     }
-    try {
-      const staff = this.authService.getStaffById(id);
-      if (!staff) {
-        throw new HttpException(
-          {
-            statusCode: HttpStatus.FORBIDDEN,
-            message: ["You don't have permission to access this api"],
-            error: 'Forbidden',
-          },
-          HttpStatus.FORBIDDEN,
-        );
-      }
-      req['staff'] = staff;
-    } catch (err) {
-      throw err;
+
+    const staff = this.authService.getStaffById(id);
+    if (!staff) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.FORBIDDEN,
+          message: ["You don't have permission to access this api"],
+          error: 'Forbidden',
+        },
+        HttpStatus.FORBIDDEN,
+      );
     }
+    req['staff'] = staff;
+
     next();
   }
 }
