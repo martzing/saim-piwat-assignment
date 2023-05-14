@@ -105,7 +105,7 @@ describe('InitTableMiddleware', () => {
     }
     expect(thrownError.getResponse()).toEqual({
       statusCode: HttpStatus.NOT_FOUND,
-      message: ['User not found'],
+      message: ['Staff not found'],
       error: 'Not Found',
     });
   });

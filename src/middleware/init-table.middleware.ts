@@ -51,7 +51,7 @@ export class InitTableMiddleware implements NestMiddleware {
       throw new HttpException(
         {
           statusCode: HttpStatus.NOT_FOUND,
-          message: ['User not found'],
+          message: ['Staff not found'],
           error: 'Not Found',
         },
         HttpStatus.NOT_FOUND,

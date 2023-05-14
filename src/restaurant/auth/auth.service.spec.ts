@@ -41,7 +41,7 @@ describe('AuthService', () => {
     expect(token).toMatch(jwtRegEx);
   });
 
-  it('login fail when user not found', async () => {
+  it('login fail when staff not found', async () => {
     let thrownError;
     try {
       await service.login({
@@ -53,7 +53,7 @@ describe('AuthService', () => {
     }
     expect(thrownError.getResponse()).toEqual({
       statusCode: HttpStatus.NOT_FOUND,
-      message: ['user not found'],
+      message: ['Staff not found'],
       error: 'Not Found',
     });
   });
@@ -70,7 +70,7 @@ describe('AuthService', () => {
     }
     expect(thrownError.getResponse()).toEqual({
       statusCode: HttpStatus.UNAUTHORIZED,
-      message: ['password not match'],
+      message: ['Password not match'],
       error: 'Unauthorized',
     });
   });

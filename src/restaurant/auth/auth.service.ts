@@ -40,7 +40,7 @@ export class AuthService {
       throw new HttpException(
         {
           statusCode: HttpStatus.NOT_FOUND,
-          message: ['user not found'],
+          message: ['Staff not found'],
           error: 'Not Found',
         },
         HttpStatus.NOT_FOUND,
@@ -51,7 +51,7 @@ export class AuthService {
       throw new HttpException(
         {
           statusCode: HttpStatus.UNAUTHORIZED,
-          message: ['password not match'],
+          message: ['Password not match'],
           error: 'Unauthorized',
         },
         HttpStatus.UNAUTHORIZED,
