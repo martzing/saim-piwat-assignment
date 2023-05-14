@@ -7,6 +7,9 @@ import { Staff, LoginData, LoginResponse } from './type';
 export class AuthService {
   constructor(private jwtService: JwtService) {}
 
+  /**
+   * Mock staff data, in real application it must store in database
+   */
   public adminList: Staff[] = [
     {
       id: 1,

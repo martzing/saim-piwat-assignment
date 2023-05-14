@@ -14,9 +14,16 @@ import dayjs from './../../utils/dayjs';
 
 @Injectable()
 export class BookingService {
+  /**
+   * Mock table and booking trasaction data, in real application it must store in database
+   */
   public tableList: Table[] = [];
   public bookingTransactionList: BookingTransaction[] = [];
 
+  /**
+   * Only staff can use this service
+   * Please login before call this service
+   */
   initTable(amount: number): InitTableResponse {
     if (this.tableList.length > 0) {
       throw new HttpException(
@@ -163,6 +170,9 @@ export class BookingService {
     };
   }
 
+  /**
+   * This service will be used when a customer comes to the restaurant with booking id
+   */
   useReserveTable(bookingId: string): UseReserveTableResponse {
     if (this.tableList.length <= 0) {
       throw new HttpException(
@@ -233,6 +243,11 @@ export class BookingService {
     }));
   }
 
+  /**
+   * This service will be used when the customer finishes using the service and the staff wants to clear the table
+   * Only staff can use this service
+   * Please login before call this service
+   */
   clearTable(tableIds: number[]): ClearTableResponse {
     if (this.tableList.length <= 0) {
       throw new HttpException(
