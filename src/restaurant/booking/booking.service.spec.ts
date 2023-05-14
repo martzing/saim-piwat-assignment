@@ -287,7 +287,7 @@ describe('BookingService', () => {
     }
     expect(thrownError.getResponse()).toEqual({
       statusCode: HttpStatus.BAD_REQUEST,
-      message: ['Booking status cannot set to complete'],
+      message: ['Invalid booking status'],
       error: 'Bad Request',
     });
   });
