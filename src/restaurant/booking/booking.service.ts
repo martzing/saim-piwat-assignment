@@ -204,7 +204,7 @@ export class BookingService {
       throw new HttpException(
         {
           statusCode: HttpStatus.BAD_REQUEST,
-          message: ['Booking status cannot set to complete'],
+          message: ['Invalid booking status'],
           error: 'Bad Request',
         },
         HttpStatus.BAD_REQUEST,
