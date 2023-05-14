@@ -122,7 +122,7 @@ $ docker run --publish 3000:3000 siam-piwat-assignment:0.0.1
 > |------------------|------------|-------------------------|-----------------------------------------------------------------------|
 > | customer_name    |  required  | string                  | customer reserve name                                                 |
 > | customer_amount  |  required  | int                     | customer reserve amount                                               |
-> | booking_time     |  required  | string (ISO format)     | booking time                                                          |
+> | booking_time     |  required  | date string (ISO format)| booking time                                                          |
 
 
 ##### Responses
