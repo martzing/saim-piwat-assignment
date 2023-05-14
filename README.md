@@ -7,17 +7,8 @@ $ npm i -g @nestjs/cli
 ```
 
 ## Installation
-- create .env file at root folder
-- coppy below code and paste to .env file
 ```bash
-# jwt secret
-JWT_SECRET=HDJUgujer2ek7ijQStMv
-
-# app port
-PORT=3000
-```
-- install app dependencies with command
-```bash
+# install app dependencies
 $ yarn install
 ```
 
