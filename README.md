@@ -1,10 +1,5 @@
 ## Description
-This project makes use of the [Nest](https://github.com/nestjs/nest) framework, which must first be installed on your machine using the command
-
-```bash
-# install nestjs framework 
-$ npm i -g @nestjs/cli
-```
+This project is built with the [NestJS](https://github.com/nestjs/nest).
 
 ## Installation
 ```bash
