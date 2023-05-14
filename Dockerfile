@@ -3,9 +3,6 @@ FROM node:18.16-alpine as builder
 # Create app directory
 WORKDIR /usr/src/app
 
-ARG JWT_SECRET
-ARG PORT
-
 # Install app dependencies
 COPY package.json yarn.lock ./
 
@@ -17,7 +14,11 @@ RUN yarn build
 
 FROM node:18.16-slim as deploy
 
-ENV JWT_SECRET=${JWT_SECRET}
+ARG JWT_SECRET
+ARG PORT
+
+ENV JWT_SECRET=$JWT_SECRET
+ENV PORT=$PORT
 
 USER node
 
@@ -31,6 +32,6 @@ RUN yarn install --production --frozen-lockfile
 
 COPY --from=builder /usr/src/app/dist ./dist
 
-EXPOSE ${NODE_ENV}
+EXPOSE 3000
 
 CMD [ "node", "dist/main.js" ]

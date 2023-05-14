@@ -56,6 +56,8 @@ $ yarn run test:e2e
 
 # test coverage
 $ yarn run test:cov
+docker build --build-arg JWT_SECRET=HDJUgujer2ek7ijQStMv --build-arg PORT=3000 --tag siam:0.0.1 .
+docker run -p 3000:3000 siam:0.0.1
 ```
 
 ## Support
@@ -71,3 +73,4 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
