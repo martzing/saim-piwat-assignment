@@ -51,11 +51,14 @@ $ docker run --publish 3000:3000 siam-piwat-assignment:0.0.1
 ```
 
 ### Application API
+
 ##### Staff login
 
 <details>
  <summary><code>POST</code>
- <code>/staff/login</code></summary>
+ <code>/staff/login</code>
+ <code>(Staff must log in before call init table and clear table)</code>
+ </summary>
 
 ##### Parameters
 
@@ -86,7 +89,9 @@ $ docker run --publish 3000:3000 siam-piwat-assignment:0.0.1
 
 <details>
  <summary><code>POST</code>
- <code>/booking/table/init</code></summary>
+ <code>/booking/table/init</code>
+ <code>(Staff initialize tables)</code>
+ </summary>
 
 ##### Parameters
 
@@ -114,7 +119,9 @@ $ docker run --publish 3000:3000 siam-piwat-assignment:0.0.1
 
 <details>
  <summary><code>POST</code>
- <code>/booking/table/reserve</code></summary>
+ <code>/booking/table/reserve</code>
+ <code>(Customer reserve tables)</code>
+ </summary>
 
 ##### Parameters
 
@@ -139,11 +146,13 @@ $ docker run --publish 3000:3000 siam-piwat-assignment:0.0.1
 > ```
 </details>
 
-##### Reserve tables
+##### Cancel tables
 
 <details>
  <summary><code>PATCH</code>
- <code>/booking/table/cancel</code></summary>
+ <code>/booking/table/cancel</code>
+ <code>(Customer cancel reserve tables)</code>
+ </summary>
 
 ##### Parameters
 
@@ -156,7 +165,7 @@ $ docker run --publish 3000:3000 siam-piwat-assignment:0.0.1
 
 > | http code     | content-type                      | response                                                            |
 > |---------------|-----------------------------------|---------------------------------------------------------------------|
-> | `201`         | `application/json; charset=utf-8` | `{"booking_id": "3e40f2a5-b099-43f2-b63e-4210e14b64f1", "booking_table_amount": 4, "table_remaining_amount": 1}`                           |
+> | `201`         | `application/json; charset=utf-8` | `{"booking_id": "3e40f2a5-b099-43f2-b63e-4210e14b64f1", "booking_table_amount": 4, "table_remaining_amount": 1}`|
 > | `400`         | `application/json; charset=utf-8` | `{"statusCode": 400, "message": ["Booking status cannot cance"], "error": "Bad Request"}`|
 > | `404`         | `application/json; charset=utf-8` | `{"statusCode": 400, "message": ["Booking id not found"], "error": "Bad Request"}`|
 
@@ -171,7 +180,9 @@ $ docker run --publish 3000:3000 siam-piwat-assignment:0.0.1
 
 <details>
  <summary><code>PATCH</code>
- <code>/booking/table/use</code></summary>
+ <code>/booking/table/use</code>
+ <code>(Customers come to the restaurant with booking id)</code>
+ </summary>
 
 ##### Parameters
 
@@ -184,7 +195,7 @@ $ docker run --publish 3000:3000 siam-piwat-assignment:0.0.1
 
 > | http code     | content-type                      | response                                                            |
 > |---------------|-----------------------------------|---------------------------------------------------------------------|
-> | `200`         | `application/json; charset=utf-8` | `[{"table_id": 1, "table_name": "Table_1"}, {"table_id": 2, "table_name": "Table_2"}]`                           |
+> | `200`         | `application/json; charset=utf-8` | `[{"table_id": 1, "table_name": "Table_1"}, {"table_id": 2, "table_name": "Table_2"}]`|
 > | `400`         | `application/json; charset=utf-8` | `{"statusCode": 400, "message": ["Sorry, You came too late"], "error": "Bad Request"}`|
 > | `404`         | `application/json; charset=utf-8` | `{"statusCode": 400, "message": ["Booking id not found"], "error": "Bad Request"}`|
 
@@ -199,7 +210,9 @@ $ docker run --publish 3000:3000 siam-piwat-assignment:0.0.1
 
 <details>
  <summary><code>PATCH</code>
- <code>/booking/table/clear</code></summary>
+ <code>/booking/table/clear</code>
+ <code>(Staff clears the tables when the customer finishes using the service)</code>
+ </summary>
 
 ##### Parameters
 
@@ -221,3 +234,6 @@ $ docker run --publish 3000:3000 siam-piwat-assignment:0.0.1
 >  curl --location --request PATCH 'http://localhost:3000/booking/table/clear' --header 'Content-Type: application/json' --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg0MDY1NTU0LCJleHAiOjE2ODQwNjYxNTR9.TsGStOiVMPnxRS6mTBLkAA-BfqfR1WNyG-unN3kRrcY' --data '{"table_ids": [1, 2]}'
 > ```
 </details>
+
+### Postman Collection
+You can use postman application for test api with import my collection and env to your postman workspace
